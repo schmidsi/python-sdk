@@ -171,11 +171,11 @@ class GraphAPI(object):
             else:
                 args["access_token"] = self.access_token
         post_data = None if post_args is None else urllib.urlencode(post_args)
-        file = urllib.urlopen("https://graph.facebook.com/" + path + "?" +
-                              urllib.urlencode(args), post_data)
+        query = "https://graph.facebook.com/" + path + "?" + urllib.urlencode(args)
+        file = urllib.urlopen(query, post_data)
         
         raw = file.read()
-        logger.debug('facebook response raw: %s' % raw)
+        logger.debug('facebook response raw: %s, query: %s' % (raw, query))
         try:
             response = _parse_json(raw)
         finally:
