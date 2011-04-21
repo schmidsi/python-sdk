@@ -178,14 +178,14 @@ class GraphAPI(object):
         logger.debug('facebook response raw: %s, query: %s' % (raw, query))
         try:
             response = _parse_json(raw)
-        finally:
-            file.close()
-            
-        """ in some cases, response is not an object """
-        if response:
             if response.get("error"):
                 raise GraphAPIError(response["error"]["type"],
                                     response["error"]["message"])
+        except AttributeError:
+            pass
+        finally:
+            file.close()
+            
         return response
 
 
